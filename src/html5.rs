@@ -5,7 +5,7 @@
 #[crate_id="github.com/kmcallister/html5"];
 #[crate_type="dylib"];
 
-#[feature(macro_rules, phase)];
+#[feature(macro_rules, phase, asm)];
 
 #[phase(syntax, link)]
 extern crate log;

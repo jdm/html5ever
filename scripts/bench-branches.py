@@ -20,7 +20,7 @@ for branch in branches_run:
     subprocess.check_call(
         '''../configure &&
          git checkout {0:s} &&
-         BENCH_UNCOMMITTED=1 make RUSTFLAGS="-O" METRICS=metrics.{0:s}.json clean bench \
+         BENCH_UNCOMMITTED=1 make RUSTFLAGS="-O --cfg terrifying_microoptimizations" METRICS=metrics.{0:s}.json clean bench \
             | tee bench.{0:s}'''
         .format(branch), shell=True)
 
