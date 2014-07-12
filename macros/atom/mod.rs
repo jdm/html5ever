@@ -48,7 +48,7 @@ pub fn expand_static_atom_array(cx: &mut ExtCtxt, sp: Span, tt: &[TokenTree]) ->
 fn atom_tok_to_str(t: &TokenTree) -> Option<InternedString> {
     Some(get_ident(match *t {
         TTTok(_, IDENT(s, _)) => s,
-        TTTok(_, LIT_STR(s)) => s,
+        TTTok(_, LIT_STR(s)) => s.ident(),
         _ => return None,
     }))
 }
