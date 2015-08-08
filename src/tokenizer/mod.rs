@@ -160,6 +160,9 @@ pub struct Tokenizer<Sink> {
 
     /// Record of how many ns we spent in the token sink.
     time_in_sink: u64,
+
+    /// Insertion point in the input stream for new tokens
+    insertion_point: Option<u32>,
 }
 
 impl<Sink: TokenSink> Tokenizer<Sink> {
@@ -192,6 +195,7 @@ impl<Sink: TokenSink> Tokenizer<Sink> {
             temp_buf: StrTendril::new(),
             state_profile: BTreeMap::new(),
             time_in_sink: 0,
+            insertion_point: None,
         }
     }
 
@@ -205,6 +209,12 @@ impl<Sink: TokenSink> Tokenizer<Sink> {
 
     pub fn sink_mut<'a>(&'a mut self) -> &'a mut Sink {
         &mut self.sink
+    }
+
+    /// Insert an input string at the insertion point.
+    pub fn insert(&mut self, input: StrTendril) {
+        assert!(self.insertion_point.is_some());
+        //TODO insert tokens in the input stream at the appropriate place
     }
 
     /// Feed an input string into the tokenizer.
@@ -303,6 +313,21 @@ impl<Sink: TokenSink> Tokenizer<Sink> {
             None if self.at_eof => Some(false),
             r => r,
         }
+    }
+
+    pub fn set_insertion_point(&mut self, point: Option<u32>) {
+        //TODO set the insertion point
+    }
+
+    pub fn insertion_point(&self) -> Option<u32> {
+        self.insertion_point.clone()
+    }
+
+    /// Run the state machine until we reach the recorded insertion point,
+    /// or until we reach a quiescent state.
+    pub fn run_to_insertion_point(&mut self) {
+        assert!(self.insertion_point.is_some());
+        //TODO run the tokenizer
     }
 
     /// Run the state machine for as long as we can.
